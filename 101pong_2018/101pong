@@ -1,0 +1,57 @@
+#!/usr/bin/python3
+
+import sys
+import math
+
+if len(sys.argv) < 1:
+    sys.exit(84)
+
+if sys.argv[1] == '-h':
+    print("USAGE\n\t./101pong x0 y0 z0 x1 y1 z1 n\n")
+    print("DESCRIPTION\n\tx0   ball abscissa at time t - 1")
+    print("\ty0   ball ordinate at time t - 1")
+    print("\tz0   ball altitude at time t - 1")
+    print("\tx1   ball abscissa at time t")
+    print("\ty1   ball ordinate at time t")
+    print("\tz1   ball altitude at time t")
+    print("\tn    time shift (greater than or equal to zero, integer)")
+    sys.exit(0)
+
+if len(sys.argv) < 8 or len(sys.argv) > 8:
+    sys.exit(84)
+
+xA = float(sys.argv[1])
+yA = float(sys.argv[2])
+zA = float(sys.argv[3])
+xB = float(sys.argv[4])
+yB = float(sys.argv[5])
+zB = float(sys.argv[6])
+p = float(sys.argv[7])
+
+Vx = xB - xA
+Vy = yB - yA
+Vz = zB - zA
+
+Tx = xB + p * Vx
+Ty = yB + p * Vy
+Tz = zB + p * Vz
+
+absolue = math.fabs(Vz)
+lenght = math.sqrt(Vx**2 + Vy**2 + Vz**2)
+
+if (lenght == 0):
+    sys.exit(84)
+
+angle = 90 - math.degrees(math.acos(absolue/lenght))
+
+print("The Velocity vector of the balls is:")
+print("(%.2f, %.2f, %.2f)" % (Vx, Vy, Vz))
+print("At time t + {}, ball coordinates will be:" .format(int(p)))
+print("(%.2f, %.2f, %.2f)" % (Tx, Ty, Tz))
+if (zB * Tz) < 0:
+    print("The incidence angle is")
+    print("%.2f degrees" %(angle))
+    sys.exit(0)
+else:
+    print("The ball won't reach the bat.")
+    sys.exit(0)

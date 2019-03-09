@@ -1,0 +1,112 @@
+#!/usr/bin/python3
+
+import sys
+from math import *
+
+def to_int(arg):
+    try :
+        return int(arg)
+    except ValueError:
+        exit(84)
+
+if len(sys.argv) < 3:
+    sys.exit(84)
+
+if sys.argv[1] == '-h':
+    print("USAGE\n\t./102architect x y transfol arg11 [arg12] [transfo2 arg12 [arg22]] ...\n")
+    print("DESCRIPTION\n\tx\tabscissa of the original point")
+    print("\ty\tordinate of the original point\n")
+    print("\ttransfo arg1 [arg2]")
+    print("\t-t i j\ttranslation along vector (i, j)")
+    print("\t-z m n\tscaling by factors m (x-axis) and n (y-axis)")
+    print("\t-r d  \trotation centered in O by a d degree angle")
+    print("\t-s d  \treflexion over the axis passing through 0 with an inclination")
+    print("\t      \tangle of d degrees")
+    sys.exit(0)
+
+Ax = 1
+Ay = 0
+Az = 0
+
+Bx = 0
+By = 1
+Bz = 0
+
+Cx = 0
+Cy = 0
+Cz = 1
+
+i = to_int(sys.argv[1])
+j = to_int(sys.argv[2])
+
+count = 3
+
+while count < len(sys.argv):
+
+    if sys.argv[count] == '-h':
+        print("USAGE\n\t./102architect x y transfol arg11 [arg12] [transfo2 arg12 [arg22]] ...\n")
+        print("DESCRIPTION\n\tx\tabscissa of the original point")
+        print("\ty\tordinate of the original point\n")
+        print("\ttransfo arg1 [arg2]")
+        print("\t-t i j\ttranslation along vector (i, j)")
+        print("\t-z m n\tscaling by factors m (x-axis) and n (y-axis)")
+        print("\t-r d  \trotation centered in O by a d degree angle")
+        print("\t-s d  \treflexion over the axis passing through 0 with an inclination")
+        print("\t      \tangle of d degrees\n")
+
+    if sys.argv[count] == '-t':
+        if (count + 2 < len(sys.argv)):
+            x = to_int(sys.argv[count + 1])
+            y = to_int(sys.argv[count + 2])
+            print("Translation along vector (%d, %d)" %(x,y))
+            Cx = Cx + x
+            Cy = Cy + y
+            count = count + 2
+        else:
+            exit(84)
+
+    if sys.argv[count] == '-z':
+        if (count + 2 < len(sys.argv)):
+            m = to_int(sys.argv[count + 1])
+            n = to_int(sys.argv[count + 2])
+            print("Scaling by factors %d and %d" %(m,n))
+            Ax = Ax * m
+            By = By * n
+            count = count + 2
+        else:
+            exit(84)
+
+    if sys.argv[count] == '-r':
+        if (count + 1 < len(sys.argv)):
+            d = to_int(sys.argv[count + 1])
+            print("Rotation by a %d degree angle" %d)
+            d = d * pi / 180
+            Ax = cos(d)
+            Ay = sin(d)
+            Bx = - sin(d)
+            By = cos(d)
+            count = count + 1
+        else:
+            exit(84)
+
+    if sys.argv[count] == '-s':
+        if (count + 1 < len(sys.argv)):
+            d = to_int(sys.argv[count + 1])
+            print("Reflection over an axis with an inclination angle of %d degrees" %d)
+            d = d * pi / 180 * 2
+            Ax = cos(d)
+            Ay = sin(d)
+            Bx = sin(d)
+            By = - cos(d)
+            count = count + 1
+        else:
+            exit(84)
+
+    count = count + 1
+
+print("%.2f\t%.2f\t%.2f" %(Ax, Bx, Cx))
+print("%.2f\t%.2f\t%.2f" %(Ay, By, Cy))
+print("%.2f\t%.2f\t%.2f" %(Az, Bz, Cz))
+a = Ax * i + Bx * j + Cx
+b = Ay * i + By * j + Cy
+print("(%d, %d) => (%.2f, %.2f)" %(i,j,a,b))

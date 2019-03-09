@@ -1,0 +1,102 @@
+#!/usr/bin/python3
+
+from math import *
+import sys
+
+if len(sys.argv) < 2:
+    exit(84)
+
+if sys.argv[1] == '-h':
+    print("USAGE\n\t./103cipher message key flag\n")
+    print("DESCRIPTION\n\tmessage\ta message, made of ASCII characters")
+    print("\tkey    \tthe encryption key, made of ASCII characters")
+    print("\tflag   \t0 for the message to be encrypted, 1 to be decrypted")
+
+if len(sys.argv) != 4:
+    exit (84)
+
+if sys.argv[3] != '0' and sys.argv[3] != '1':
+   exit (84)
+
+i = len(sys.argv[2])
+j = float(sqrt(i))
+v = int(j)
+
+if v != j:
+    v = v + 1
+
+key = sys.argv[2]
+string = sys.argv[1]
+i = 0
+k = 0
+nb = 0
+result = 0
+matrice = [[0] * v for _ in range(v)]
+
+print("Key matrix:")
+
+while nb < len(key):
+    matrice[i][k] = ord(key[nb])
+    if v - 1 == k:
+        i += 1
+        k = 0
+    else :
+        k += 1
+    nb += 1
+
+i = 0
+k = 0
+
+for loop in range(v):
+    for loop in range(v - 1):
+        print("%d\t" %matrice[i][k], end='')
+        k += 1
+    print("%d" %matrice[i][k], end='')
+    print()
+    i += 1
+    k = 0
+print()
+
+i = 0
+k = 0
+nb = 0
+
+print("Encrypted message:")
+while nb < len(string) :
+    if (nb + 3 > len(string)) and v != 1:
+        if len(string) - nb == 1 :
+            for loop in range(v):
+                result = result + matrice[0][k] * ord(string[nb])
+                k += 1
+                if k == 3:
+                    print("%d" %result, end='')
+                else :
+                    print("%d " %result, end='')
+                result = 0
+            nb = len(string)
+        else :
+            for loop in range(len(string) - nb):
+                while i < len(string) - nb :
+                    result = result + matrice[i][k] * ord(string[nb + i])
+                    i += 1
+                k += 1
+                if (k == len(string) - nb):
+                    print("%d" %result, end='')
+                else:
+                    print("%d " %result, end='')
+                i = 0
+                result = 0
+            k = 0
+            nb += len(string) - nb
+    else:
+        for loop in range(v):
+            while i < v:
+                result = result + matrice[i][k] * ord(string[nb + i])
+                i += 1
+            k += 1
+            print("%d " %(result), end='')
+            i = 0
+            result = 0
+        k = 0
+        nb += v
+print()
