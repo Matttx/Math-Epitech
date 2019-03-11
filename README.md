@@ -62,7 +62,7 @@ Therefore, the number of bombyx depends on those two contradictory factors, and 
 trivial.
 
 Let’s call xi the number of the ith generation of butterflys.
-Here is a model for the evolution of xi:(x1 = n where n is the number of first generation individuals
+Here is a model for the evolution of xi: x1 = n where n is the number of first generation individuals
 xi+1 = kxi * (1000−xi / 1000), for i ≥ 1, k being the growth rate, from 1 to 4.
 
 In order to study this evolution, you are asked to plot two things:
