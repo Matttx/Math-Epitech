@@ -1,0 +1,62 @@
+#!/usr/bin/python3
+
+from math import *
+import sys
+
+def to_int(arg):
+    try:
+        return int(arg)
+    except ValueError:
+        exit(84)
+
+def to_float(arg):
+    try:
+        return float(arg)
+    except ValueError:
+        exit(84)
+
+def error_managing():
+    if len(sys.argv) == 1:
+        exit(84)
+    if (sys.argv[1] == "-h"):
+        print("USAGE\n\t./107transfer [num den]*\n")
+        print("DESCRIPTION")
+        print("\tnum\t\tpolynomial numerator defined by its coefficients")
+        print("\tden\t\tpolynomial denominator defined by its coefficients")
+        exit(0)
+    elif len(sys.argv) % 2 != 1:
+        exit(84)
+
+def get_tab(tab):
+    tab = tab.split("*")
+    return (tab)
+
+def get_result(tab, x):
+    result = 0
+    i = len(tab) - 1
+    while i >= 0:
+        result = (result * x) + to_float(tab[i])
+        i -= 1
+    return (result)
+
+def main():
+    result = 1.0
+    x = 0.000
+    error_managing()
+    while x <= 1.001:
+        for i in range(1, len(sys.argv), 2):
+            num_tab = get_tab(sys.argv[i])
+            den_tab = get_tab(sys.argv[i + 1])
+            num = get_result(num_tab, x)
+            den = get_result(den_tab, x)
+            if (num == den):
+                result *= 1
+            else:
+                if (den == 0):
+                    exit(84)
+                result *= (to_float(num) / to_float(den))
+        print("%.3f -> %.5f" %(x, result))
+        x += 0.001
+        result = 1.0
+
+main()
