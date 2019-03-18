@@ -71,3 +71,11 @@ In order to study this evolution, you are asked to plot two things:
 (between two given bounds), in relation to k (k varying from 1 to 4 by 0.01 steps).
 In both cases, your program shall print on the standard outuput the values to be entered into gnuplot to
 draw the graphes.
+
+107transfer:
+You have to develop a program to optimize the transfer function computations.
+A transfer function is defined by two strings (one for the numerator, one for the denominator), composed
+by the polynomial coefficients split by the ‘*’ sign.
+For instance, “1*4*2*6*0*8” stands for 8x⁵ + 6x³ + 2x² + 4x + 1.
+Your program has to print the frequency responses of the component for a every values in a range from 0
+to 1, with a step of 0.001
